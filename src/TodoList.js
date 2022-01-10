@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
 
 class TodoList extends Component{
@@ -12,21 +13,30 @@ class TodoList extends Component{
         this.addTodo = this.addTodo.bind(this)
     }
 
-    addTodo(todo) {
+    addTodo(newTodo) {
         this.setState({
-            todos: [...this.state.todos, todo]
+            todos: [...this.state.todos, newTodo]
         });
     };
+
+    remove(id){
+        this.setState({
+            todos: this.state.todos.filter(todo => todo.id !== id)
+        })
+    }
     
 
     render(){
-        const todos = todos.map(todo => (
-            <TodoItem innerText={todo.innerText} remove={this.remove(todo_id)}/>
+        const todos = this.state.todos.map(todo => (
+            <TodoItem innerText={todo.innerText} remove={() => this.remove(todo.id)}/>
         ))
 
         return(
             <div>
+                <ul>
                 {todos}
+                </ul>
+                <TodoForm addTodo={this.addTodo}/>
             </div>
         )
     }

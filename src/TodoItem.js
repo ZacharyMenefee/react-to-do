@@ -7,14 +7,14 @@ class TodoItem extends Component {
     this.removeHandler = this.removeHandler.bind(this)
     }
 
-    removeHandler(){
+    removeHandler() {
         this.props.remove();
     }
 
     render(){
         return(
             <div>
-                <div>{this.props.innerText}</div>
+                <li>{this.props.innerText}</li>
                 <button onClick={this.removeHandler}>X</button>
             </div>
         )

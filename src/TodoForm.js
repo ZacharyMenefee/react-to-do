@@ -19,13 +19,13 @@ class TodoForm extends Component {
         });
     }
 
-    handleSubmit(evt){
-        evt.preventDefault();
+    handleSubmit(event){
+        event.preventDefault();
         const newTodo = {...this.state, id: uuidv4()}
         this.props.addTodo(newTodo);
         this.setState({
-            innerText: ""
-        })
+            innerText: "",
+        });
     }
     render(){
         return(
@@ -36,10 +36,10 @@ class TodoForm extends Component {
                     name="innerText"
                     type="text"
                     value={this.state.innerText}
-                    onChange={this.handleChange}/>
-
-                    <button>Add New Todo</button>
+                    onChange={this.handleChange}
+                    />
                 </div>
+                <button>Add New Todo</button>
             </form>
         )
     }
