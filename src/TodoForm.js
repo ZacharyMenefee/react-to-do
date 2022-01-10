@@ -8,8 +8,25 @@ class TodoForm extends Component {
         this.state = {
             innerText: "",
         }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleChange.bind(this);
     }
 
+    handleChange(evt){
+        this.setState({
+            [evt.target.name]: evt.target.value
+        });
+    }
+
+    handleSubmit(evt){
+        evt.preventDefault();
+        const newTodo = {...this.state, id: uuidv4()}
+        this.props.addTodo(newTodo);
+        this.setState({
+            innerText: ""
+        })
+    }
     render(){
         return(
             <form onSubmit={this.handleSubmit}>
@@ -27,3 +44,5 @@ class TodoForm extends Component {
         )
     }
 }
+
+export default TodoForm;
