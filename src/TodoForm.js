@@ -26,6 +26,7 @@ class TodoForm extends Component {
             innerText: "",
         });
     }
+
     render(){
         return(
             <form onSubmit={this.handleSubmit}>
