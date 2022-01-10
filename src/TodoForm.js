@@ -10,7 +10,7 @@ class TodoForm extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(evt){
@@ -21,8 +21,7 @@ class TodoForm extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        const newTodo = {...this.state, id: uuidv4()}
-        this.props.addTodo(newTodo);
+        this.props.addTodo({...this.state, id: uuidv4()});
         this.setState({
             innerText: "",
         });
