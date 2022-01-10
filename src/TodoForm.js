@@ -21,7 +21,7 @@ class TodoForm extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        this.props.addTodo({...this.state, id: uuidv4()});
+        this.props.addTodo({...this.state, id: uuidv4(), isFinished: false});
         this.setState({
             innerText: "",
         });

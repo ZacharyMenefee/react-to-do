@@ -6,13 +6,14 @@ class TodoItem extends Component {
 
     this.state = {
         isEditing: false,
-        innerText: this.props.innerText
+        innerText: this.props.innerText,
      };
 
     this.removeHandler = this.removeHandler.bind(this)
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
     }
 
     removeHandler() {
@@ -23,6 +24,10 @@ class TodoItem extends Component {
         this.setState({
             isEditing: !this.state.isEditing,
         });
+    }
+
+    handleToggle(){
+        this.props.toggleFinished(this.props.id)
     }
 
     handleUpdate(evt){
@@ -55,14 +60,13 @@ class TodoItem extends Component {
                 </form>
             )
         }else if (!this.state.isEditing){
-           result = (
+            result = (
                 <div>
-                    <li>{this.props.innerText}</li>
+                    <li onClick={this.handleToggle} style={{textDecoration: this.props.isFinished ? 'line-through' : null}}>{this.props.innerText}</li>
                     <button onClick={this.removeHandler}>X</button>
                     <button onClick={this.toggleEdit}>Edit</button> 
                 </div>
-            );
-        }
+       )};
         return result;
     }
 }
