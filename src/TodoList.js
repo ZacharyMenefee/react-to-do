@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
+import './TodoList.css'
 
 class TodoList extends Component{
     constructor(props){
@@ -11,13 +12,18 @@ class TodoList extends Component{
         };
 
         this.addTodo = this.addTodo.bind(this)
+        this.editTodo = this.editTodo.bind(this)
+        this.remove = this.remove.bind(this)
+        this.toggleFinished = this.toggleFinished.bind(this)
     }
 
     addTodo(newTodo) {
         this.setState({
             todos: [...this.state.todos, newTodo]
         });
-    };
+        const storeTodos = JSON.stringify(this.state.todos)
+        localStorage.setItem('todolist', storeTodos)
+    }
 
     remove(id){
         this.setState({
@@ -25,14 +31,47 @@ class TodoList extends Component{
         })
     }
     
+    editTodo(editedTodo, id){
+        const updatedTodos = this.state.todos.map(todo => {
+            if(todo.id === id){
+                return {...todo, innerText: editedTodo}
+            }
+            return todo;
+        });
+
+        this.setState({
+            todos: updatedTodos,
+        });
+    }
+
+    toggleFinished(id){
+        const updatedTodos = this.state.todos.map(todo => {
+            if(todo.id === id){
+                return {...todo, isFinished: !todo.isFinished}
+            }
+            return todo;
+        });
+
+        this.setState({
+            todos: updatedTodos,
+        });
+    }
 
     render(){
         const todos = this.state.todos.map(todo => {
-            return <TodoItem innerText={todo.innerText} id={todo.id} value={todo.id} remove={() => this.remove(todo.id)}/>
+            return <TodoItem 
+            innerText={todo.innerText} 
+            id={todo.id} 
+            value={todo.id} 
+            remove={() => this.remove(todo.id)}
+            updateTodo={this.editTodo}
+            isFinished={todo.isFinished}
+            toggleFinished={this.toggleFinished}/>
         })
 
         return(
-            <div>
+            <div className='TodoList'>
+                <h1>Todo List! <span>Simple React Todo List</span></h1>
                 <ul>
                 {todos}
                 </ul>
