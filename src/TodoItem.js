@@ -1,4 +1,6 @@
 import {Component} from 'react'
+import './Todo.css'
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class TodoItem extends Component {
     constructor(props){
@@ -46,8 +48,8 @@ class TodoItem extends Component {
         let result;
         if(this.state.isEditing){
             result = (
-                <form onSubmit={this.handleUpdate}>
-                    <div>
+                <CSSTransition key='editing' timeout={500} classNames='form'>
+                <form className="Todo-edit-form" onSubmit={this.handleUpdate}>
                         <input 
                         id='innerText'
                         name='innerText'
@@ -55,20 +57,33 @@ class TodoItem extends Component {
                         value={this.state.innerText}
                         onChange={this.handleChange}
                         placeholder={this.state.innerText}/>
-                    </div>
                     <button>Submit Changes</button>
                 </form>
+                </CSSTransition>
             )
         }else if (!this.state.isEditing){
             result = (
-                <div>
-                    <li onClick={this.handleToggle} style={{textDecoration: this.props.isFinished ? 'line-through' : null}}>{this.props.innerText}</li>
-                    <button onClick={this.removeHandler}>X</button>
-                    <button onClick={this.toggleEdit}>Edit</button> 
-                </div>
+                <CSSTransition key='normal' timeout={500} classNames='task-text'>
+                    <li className="Todo-task" onClick={this.handleToggle}>
+                        {this.props.innerText}
+                    </li>
+                </CSSTransition>
        )};
-        return result;
-    }
+        return (
+            <TransitionGroup
+                className={this.props.isFinished ? "Todo completed" : "Todo"}
+            >
+          {result};
+          <div className='Todo-buttons'>
+            <button onClick={this.toggleEdit}>
+                <i class='fas fa-pen' />
+            </button>
+          <button onClick={this.removeHandler}>
+            <i class='fas fa-trash' />
+          </button>
+        </div>
+      </TransitionGroup>
+        )}
 }
 
 export default TodoItem;
